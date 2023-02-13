@@ -1,0 +1,1 @@
+print("40", "rmscks97", sep = '\n')
