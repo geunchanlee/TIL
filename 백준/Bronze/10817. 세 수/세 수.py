@@ -1,4 +1,6 @@
-A, B, C = map(int, input().split())
+import sys
+
+A, B, C = map(int, sys.stdin.readline().split())
 if A > B:
     A, B = B, A
 if B > C:
