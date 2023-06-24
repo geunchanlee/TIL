@@ -1,13 +1,14 @@
+def roundFive(v, num):  # python 반올림 방식차이 해결용 함수
+    return round(v + 10 ** (-len(str(v)) - 1), num)
+
 C = int(input())
-t = 0
-while t<C:
-    N = list(map(int, input().split()))
-    num = N.pop(0)
-    a = sum(N)
-    r = a/num
-    over = 0
-    for i in N:
-        if i > r:
-            over += 1
-    print(f"{(over/num)*100:.3f}%")
-    t = t+1
+l = [list(map(int, input().split())) for _ in range(C)]
+for i in range(C):
+    up = 0
+    N = l[i][0]
+    score_sum = sum(l[i]) - N
+    average = score_sum / N
+    for j in l[i][1:]:
+        if j > average:
+            up += 1
+    print(f"{roundFive(up / N * 100, 3):.3f}%")
