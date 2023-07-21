@@ -3,9 +3,8 @@ input = sys.stdin.readline
 N = int(input().rstrip())
 card = {int(_) for _ in input().split()}
 M = int(input().rstrip())
-find = [int(_) for _ in input().split()]
 ans = []
-for i in find:
+for i in [int(_) for _ in input().split()]:
     if i in card:
         ans.append(1)
     else:
