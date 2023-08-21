@@ -1,4 +1,5 @@
 import sys
+input = sys.stdin.readline
 d = {}
 N = int(input())
 card = [_ for _ in input().split()]
@@ -10,6 +11,6 @@ for i in card:
 M = int(input())
 for j in sys.stdin.readline().split():
     if j in d:
-        print(d[j], end=' ')
+        print(d[j], end=" ")
     else:
-        print(0, end=' ')
+        print(0, end=" ")
