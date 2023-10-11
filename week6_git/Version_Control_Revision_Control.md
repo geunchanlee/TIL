@@ -1,7 +1,18 @@
 # week6 git
+---
 
-[6th week] Version Control Revision Control.pdf
+file: **[6th week] Version Control Revision Control.pdf**
 
+- git 설정(--global 옵션으로 설정하면 모든 프로젝트에 적용)
+git config --global user.name "name" : 사용자 이름 설정
+git config --global user.email email : 사용자 이메일 설정
+
+- 설정 확인
+git config --list
+git config user.name 
+----------------------
+- 기존 디렉토리 git저장소로 만들기
+    * 임의 디렉토리 생성, 이동 후 git init 명령 실행
 git remote -v
 
 git add origin “repoaddress”
