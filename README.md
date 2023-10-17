@@ -1,6 +1,7 @@
-LINUX System class 
+## LINUX System class
 ==============================
+1. git add, commit, push
 
-forkggggggiiiiiiittttt
+2. fork, clone, Pull Request
 ------------------------------
 # hello git
