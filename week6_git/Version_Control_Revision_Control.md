@@ -68,3 +68,41 @@ git push origin **branchname**
 ### pull
 
 최신 업데이트된것 다 긁어오기
+
+--- 
+github 특강 10.17
+
+## Git-flow
+
+Git으로 개발할 때 표준과 같이 사용되는 방법론
+### main branch (사라지지 않고 계속 사용되는 branch)
+
+- master branch
+	- 개발 완료되어 배포하는 branch
+- develop branch
+	- 다음에 개발할 것 배포하는 branch
+
+### Supporting branch (보조 브랜치)
+
+- feature branch 
+	- 기능을 개발하는 branch로 develop branch에서 분기
+	- 기능을 다 개발하면 develop branch로 merge
+- release branch 
+	- 배포를 위해 최종적 버그 수정 등 개발 수행하는 branch (develop branch에서 분기)
+	- 배포 가능한 상태가 되면 master branch로 merge (develop branch도)
+- hotfix branch
+	- 급하게 수정해야 할 필요가 있을 때, master branch에서 분기하는 branch
+	- develop branch에도 merge 해 문제를 처리해야 함
+
+### Github-flow
+
+git flow를 github에 적용하기 위해 만들어진 방식
+master branch에 대한 규칙만 정확하게 정립하고 나머지 가지들은 pull request기능을 사용하길 권장
+
+개발을 진행하면서 수시로 push해 내 작업을 다른 사람들도 확인할 수 있게 함
+
+### PR(Pull Request)
+
+> 피드백이나 도움이 필요할 때, merge 준비가 완료되었을 때 생성
+
+
