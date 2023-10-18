@@ -29,17 +29,15 @@ int main()
         if (op == 's')
         {
             x = sqrt(x);
-            printf("%lf\n\n", x);
+            printf("%g\n\n", x);
             continue;
         }
 
 
-        // 연산자가 아닌 값을 입력하면 연산자를 다시 입력받음
+        // 연산자가 아닌 값을 입력하면 연산자를 다시 입력받기 위해 반복문 다시 시작
         if ((op != '+') && (op != '-') && (op != '*') && (op != '/') && (op != 'p'))
         {
             printf("연산자를 입력해야 합니다.\n\n");
-            printf("입력: ");
-            op = getchar();
             continue;
         }
         else       
@@ -51,7 +49,7 @@ int main()
             printf("\n");
         }
 
-        // switch case 조건문으로 각 연산자일때 계산결과값을 x에 저장
+        // switch case 조건문으로 각 연산자일때 계산 결과값을 x에 저장
         switch (op)
         {
         case '+':
@@ -77,8 +75,8 @@ int main()
             break;
         }
 
-        printf("%lf\n\n", x);
+        // 소수점 뒤 출력을 위해 %g로 출력
+        printf("%g\n\n", x);
     }
-
     return 0;
 }
