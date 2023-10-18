@@ -1,5 +1,5 @@
 #!/bin/sh
-if[ "cook" = "cook" ]
+if [ "cook" = "cook" ]
 then
 	echo "참입니다"
 fi
