@@ -61,3 +61,69 @@ getch, putch = include <conio.h>
 2. gets_s(char s[], int length)
 
 줄바꿈 전까지의 한 줄을 배열에 저장
+
+줄바꿈 전까지의 한 줄을 배열에 저장
+
+- 출력 
+
+printf(), puts()
+
+<br>
+
+### 문자열 처리 라이브러리
+
+> '#include <string.h>
+
+1. strlen(s)
+
+2. strcpy(s1, s2)
+
+3. strcat(s1, s2)
+
+4. strcmp(s1, s2)
+
+<br>
+
+### 문자열을 수치로 변환
+
+~~~c
+printf("%d\n", atoi("100")); //문자열을 정수 100으로
+
+sscanf(s, "%d", &i); //문자열을 정수 100으로
+
+sprintf(t, "%d", 100); // 숫자를 문자열로
+~~~
+1. atoi()
+--- 
+
+문자열 비교할 땐 ==를 사용해 비교하지 말자 
+
+-> 반드시 strcmp()를 사용할 것
+
+문자열 배열에 초기화 문장이 아니면 직접적으로 넣을 수 없다
+
+-> strcpy()를 사용하자
+
+---
+
+### 문자열과 포인터
+
+> char *p = "hello"
+ 
+여기서 hello는 변할 수 없는 문장
+
+> char s[] = "Hello world"
+
+여기는 값을 변경할 수 있다
+
+### 문자열의 배열
+
+래그드 배열 = 공간 낭비는 없어지지만 수정이 불가능
+
+- EOF = ctrl + c 
+
+### strtok
+
+> char * strtok(char *s, char *delimeter)
+
+s 자리에 처음 호출할 때는 문자열을 넣고 그 이후에 호출할 땐 NULL을 넣는다
