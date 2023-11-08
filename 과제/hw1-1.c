@@ -16,6 +16,7 @@ int main()
     while (1) // 무한루프로 구성
     {
         // 버퍼에 남은 개행문자를 getchar();로 제거해주고 연산자를 입력받아 op에 저장
+        // (풀이)아래 scanf에서 scanf(" %c",&op)로도 가능하다
         getchar();
         printf("입력: ");
         scanf("%c", &op);
