@@ -1,5 +1,6 @@
 maxb = 5
 
+
 class bitskey:
     def __init__(self, x):
         self.x = x

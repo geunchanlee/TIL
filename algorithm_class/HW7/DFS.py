@@ -1,12 +1,17 @@
 def dfs(v):
+    if v is None:
+        return
+
     print(v, end=" ")
     visited[v] = True
 
+    # NoneType 에러를 막기 위해 예외 처리 했습니다
     for i in a[v]:
-        if visited[i] == False:
-            dfs(i)
+        if i != None:
+            if visited[i] == False:
+                dfs(i)
 
-# None에 대한 오류 처리 어떻게 할 지 생각
+
 n = 6
 a = [
     [1, 2, 3, 4, None],
@@ -16,6 +21,7 @@ a = [
     [0, 2, 3, 5, None],
     [3, 4, None],
 ]
+
 for i in range(n):
     visited = [False] * n
     print("dfs(%d): " % i, end="")
