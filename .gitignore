@@ -88,4 +88,6 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
+# TA folder
+/TA풀이 코드
 # End of https://www.toptal.com/developers/gitignore/api/c,macos
