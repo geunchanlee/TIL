@@ -114,6 +114,8 @@ Q. 이미지에서 컨테이너를 만들고 거기서 작업한 내용을 남�
 
 A. 만들어진 컨테이너를 가지고 이미지를 만들어내야 한다
 
+<br>
+
 ## 도커 컨테이너 기반 어플리케이션 구축
 
 실제 배포에서는 웹서버, DB를 도커 컨테이너 여러개로 분리해서 만듬
@@ -135,7 +137,6 @@ A. 도커파일로 이런 컨테이너들을 만들겠다고 써두면 명령 �
     - $ docker run -d --name wordpress -e WORDPRESS_DB_PASSWORD=1234 --link wordpressdb:mysql -p 80 wordpress`
     
 
----
 
 ## 도커 볼륨
 
@@ -143,4 +144,50 @@ DB를 어디에 저장해야 하는가? → 컨테이너 내부에 저장하면 
 
 이렇게 해야 데이터베이스를 삭제시켰을때 호스트 디렉토리에 파일은 남아있기 때문에 다시 똑같은 이미지를 통해서 컨테이너를 다시 만들면 호스트에 보관되어 있던 파일을 마운트시켜서 서비스를 지속 가능하다
 
-### 도커 볼륨: 호스트와 공유
+<br>
+
+## 도커 이미지
+
+### 도커 이미지 생성하기
+
+도커 컨테이너에서 작업한 내용을 보존하기 위해 그 상태로 이미지를 만들 수 있다.
+
+- 우분투 컨테이너 하나 생성하고 작업 수행
+
+    - $ docker run -it —name incheon ubuntu:22.04
+    - root: /# echo Incheon National University >> first.txt
+    
+- ctrl + P,Q로 빠져나와서 확인하고 이미지 생성
+
+    - $ docker ps (컨테이너 계속 실행중인 모습 확인)
+    - $ docker commit -a “chan” -m “my first docker image” **incheon** **incheon:0.1**
+
+        - -a 옵션: 저자, -m 옵션: 커밋 메세지
+        - **incheon** = 컨테이너 이름
+        - **incheon:0.1** = 이미지 이름과 태그
+        
+- 기존 컨테이너 삭제하고 이미지에서 새로 컨테이너 만들어 확인해보기
+
+    - $ docker stop incheon, docker rm incheon
+    - $ docker run -it —name songdo incheon:0.1
+    - 확인해보면 incheon 컨테이너에서 만든 first.txt 파일이 있음
+    
+
+### Docker Hub
+
+- docker hub에서 레포지토리 생성하기
+
+- 태그 작업후 repository에 push
+
+    - $ docker login
+    - $ docker tag incheon:0.1 geunchanlee/incheon:0.1
+    - $ docker push geunchanlee/incheon:0.1
+
+- 이미지 삭제
+
+    - docker rmi incheon:0.1
+
+- docker inspect incheon:0.2
+
+    - 이미지 검사 기능
+    - 레이어 보기
