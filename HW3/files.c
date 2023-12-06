@@ -1,6 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-typedef struct
+struct book
 {
     int num;
     char title[100];
@@ -9,30 +10,62 @@ typedef struct
     char subGenre[100];
     int height;
     char publisher[100];
-} Book;
+};
 
 int main()
 {
-    FILE *file = fopen("books.csv", "r");
-    if (file == NULL)
+    FILE *fp = fopen("books.csv", "r");
+    if (fp == NULL)
     {
-        perror("Error opening file");
+        printf("파일 열기 오류 발생\n");
         return 1;
     }
 
-    Book book;
+    struct book *books = NULL;
+    int cnt = 0;
+    int capacity = 0;
 
-    // Assuming the header line is present in the CSV file, so it's read and discarded
-    fscanf(file, "Number,Title,Author,Genre,SubGenre,Height,Publisher\n");
+    fscanf(fp, "Number,Title,Author,Genre,SubGenre,Height,Publisher\n");
 
-    while (fscanf(file, "%d,%99[^,],\"%99[^\"]\",%99[^,],%99[^,],%d,%99[^\n]\n",
-                  &book.num, book.title, book.author, book.genre, book.subGenre, &book.height, book.publisher) == 7)
+    while (1)
     {
-        // Process the data or print it as needed
-        printf("Num: %d, Title: %s, Author: %s, Genre: %s, SubGenre: %s, Height: %d, Publisher: %s\n",
-               book.num, book.title, book.author, book.genre, book.subGenre, book.height, book.publisher);
+        if (cnt >= capacity)
+        {
+            capacity += 10;
+            books = realloc(books, sizeof(struct book) * capacity);
+            if (books == NULL)
+            {
+                printf("메모리 할당 오류 발생\n");
+                fclose(fp);
+                return 1;
+            }
+        }
+
+        // 책데이터 읽어오기 fscanf
+        int result = fscanf(fp, "%d,\"%99[^\"]\",\"%99[^\"]\",%99[^,],%99[^,],%d,%99[^\n]\n",
+                            &books[cnt].num, books[cnt].title, books[cnt].author, books[cnt].genre, books[cnt].subGenre, &books[cnt].height, books[cnt].publisher);
+
+        printf("fscanf result: %d\n", result);
+
+        if (result == 7)
+        {
+            printf("Num: %d, Title: %s, Author: %s, Genre: %s, SubGenre: %s, Height: %d, Publisher: %s\n",
+                   books[cnt].num, books[cnt].title, books[cnt].author, books[cnt].genre, books[cnt].subGenre, books[cnt].height, books[cnt].publisher);
+
+            cnt++;
+        }
+        else if (result == EOF)
+        {
+            break; // Exit the loop when no more data can be read
+        }
+        else
+        {
+            printf("Error reading data\n");
+            break;
+        }
     }
 
-    fclose(file);
+    fclose(fp);
+    free(books);
     return 0;
 }

@@ -1,80 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define SIZE 256
+#define SIZE 128
 
 // 책 정보를 저장하는 구조체입니다.
 struct book
 {
     int number;
-    char title[256];
-    char author[256];
-    char other[256];
+    char info[256];
 };
-
-/* 자료 형식
-1,Fundamentals of Wavelets,"Goswami, Jaideva",tech,signal_processing,228,Wiley
-8,"Drunkard's Walk, The","Mlodinow, Leonard",science,mathematics,197,Penguin
-8번 의 경우 저자명이 ""로 둘러쌓여있는데 어떻게 처리해야할지?
-*/
-
-// 파일에서 책 정보를 읽어와서 동적 배열에 저장하는 함수
-void readBook(FILE *fp, struct book *books, int *cur_size, int *max_size)
-{
-    char line[512];
-    fgets(line, sizeof(line), fp); // 카테고리 정보가 저장되어 있는 첫번째 줄은 무시합니다.
-
-    while (fgets(line, sizeof(line), fp) != NULL)
-    {
-        if (*cur_size >= *max_size)
-        {
-            // 동적 배열 크기 확장
-            *max_size += SIZE;
-            books = (struct book *)realloc(books, *max_size * sizeof(struct book));
-            if (books == NULL)
-            {
-                printf("메모리 재할당 오류 발생\n");
-                exit(1);
-            }
-        }
-
-        // 첫 ,로 나누어지는 도서 번호 저장
-        char *token = strtok(line, ",");
-        books[*cur_size].number = atoi(token);
-
-        // 남은 문자열 처리를 도울 remain 변수 선언하고 도서번호 이후 문자열을 입력해주었습니다.
-        char *remain = strtok(NULL, "");
-
-        // 숫자 이후 제목 파트가 " 로 시작한 경우를 처리합니다.
-        if (remain[0] == '\"')
-        {
-            token = strtok(remain, "\"");
-            printf("token: %s\n", token);
-            strcpy(books[*cur_size].title, token);
-            remain = strtok(NULL, ",");
-        }
-        else // ""로 제목이 구분되지 않은 경우
-        {
-            // 제목 파트의 끝이 "가 아니라 , 일 것이므로 ,를 기준으로 나누어줍니다.
-            token = strtok(remain, ",");
-            strcpy(books[*cur_size].title, token);
-        }
-
-        remain = strtok(NULL, "\"");
-        printf("remain: %s\n", remain);
-        token = strtok(remain, "\"");
-        strcpy(books[*cur_size].author, token);
-
-        remain = strtok(NULL, "");
-        if (remain != NULL)
-        {
-            strcpy(books[*cur_size].other, remain);
-        }
-
-        (*cur_size)++;
-    }
-    free(books);
-}
 
 // 프로그램 메뉴 출력함수
 void printMenu()
@@ -97,7 +31,7 @@ void toLowerCase(char input[], int lenth)
     // 문자열의 각 문자가 아스키 코드 값으로 90('Z')보다 작으면 대문자이기 때문에 32를 더해 소문자로 만드는 부분입니다.
     for (int i = 0; i < lenth; i++)
     {
-        if (input[i] >= 'A' && input[i] <= 'Z')
+        if (input[i] <= 90)
             input[i] += 32;
     }
 }
@@ -109,14 +43,14 @@ void findBookByNumber(struct book *books, int cur_size, int number)
     {
         if (books[i].number == number)
         {
-            printf("찾은 책 정보: %d 제목:%s 저자:%s 나머지:%s\n", books[i].number, books[i].title, books[i].author, books[i].other);
+            printf("찾은 책 정보: %d,%s\n", books[i].number, books[i].info);
             return;
         }
     }
     printf("%d 번에 해당하는 책을 찾지 못했습니다.\n", number);
 }
 
-// 2
+// 2번과 3번의 책 찾기 함수입니다.
 void findBookByInfo(struct book *books, int cur_size, const char *findInfo)
 {
     // 함수의 입력으로 들어온 저자명을 toLowerCase를 이용해 소문자로 변환해주는 부분입니다.
@@ -130,14 +64,14 @@ void findBookByInfo(struct book *books, int cur_size, const char *findInfo)
     {
         // 함수의 입력과 비교할 책 정보를 toLowerCase함수를 사용해 소문자로 변환해주는 부분입니다.
         char lowerInfo[256];
-        strcpy(lowerInfo, books[i].title);
+        strcpy(lowerInfo, books[i].info);
         toLowerCase(lowerInfo, strlen(lowerInfo));
 
         // 저자명이 일치하는 책을 출력하는 부분입니다.
         if (strstr(lowerInfo, findInfo) != NULL)
         {
             find++; // 일치하는 책을 한 권이라도 찾았을 때 이를 알리기 위해 find변수를 증가시킵니다.
-            printf("책 정보 %d: %d,%s\n", find, books[i].number, books[i].title);
+            printf("책 정보 %d: %d,%s\n", find, books[i].number, books[i].info);
         }
     }
     // find 변수가 1이 되지 못했을 때는 저자가 일치하는 책을 찾지 못했다는 것이므로 이 결과를 출력해줍니다.
@@ -167,7 +101,37 @@ int main()
     }
 
     // 파일에서 책 정보를 읽어와서 동적 배열에 저장합니다.
-    readBook(fp, books, &cur_size, &max_size);
+    char line[512];
+    fgets(line, sizeof(line), fp); // 카테고리 정보가 저장되어 있는 첫번째 줄은 읽어만 두고 무시합니다.
+    while (fgets(line, sizeof(line), fp) != NULL)
+    {
+        // 책 정보를 맨 앞의 번호와 나머지 부분으로 나누어 저장합니다.
+        // 입력받아온 문자열을 strtok 함수를 이용해 쉼표를 기준으로 나누어 번호와 나머지 부분으로 저장했습니다.
+        char *token = strtok(line, ",");
+        if (token != NULL)
+        {
+            books[cur_size].number = atoi(token);
+
+            // 두번째 strtok의 인자를 빈 문자열인 ""로 지정해서 number에 저장하고 남은 모든 부분을 info에 저장했습니다.
+            token = strtok(NULL, "");
+            if (token != NULL)
+            {
+                strcpy(books[cur_size].info, token);
+                cur_size++;
+            }
+        }
+        // 동적 배열의 크기를 입력에 맞게 조정합니다.
+        if (cur_size >= max_size)
+        {
+            max_size += SIZE;
+            books = (struct book *)realloc(books, sizeof(struct book) * max_size);
+            if (books == NULL)
+            {
+                printf("메모리 재할당 오류 발생\n");
+                return 1;
+            }
+        }
+    }
 
     // 메뉴에서 입력받은 기능을 실행하는 부분입니다.
     int select = 0;
@@ -227,6 +191,7 @@ int main()
     }
 
     fclose(fp);
+    free(books);
 
     return 0;
 }
