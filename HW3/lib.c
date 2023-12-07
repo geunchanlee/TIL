@@ -15,7 +15,7 @@ struct book
 /* 자료 형식
 1,Fundamentals of Wavelets,"Goswami, Jaideva",tech,signal_processing,228,Wiley
 8,"Drunkard's Walk, The","Mlodinow, Leonard",science,mathematics,197,Penguin
-8번 의 경우 저자명이 ""로 둘러쌓여있는데 어떻게 처리해야할지?
+8번 의 경우 저자명이 ""로 둘러쌓여있는데 어떻게 처리?
 */
 
 // 파일에서 책 정보를 읽어와서 동적 배열에 저장하는 함수
@@ -43,37 +43,36 @@ void readBook(FILE *fp, struct book *books, int *cur_size, int *max_size)
         books[*cur_size].number = atoi(token);
 
         // 남은 문자열 처리를 도울 remain 변수 선언하고 도서번호 이후 문자열을 입력해주었습니다.
-        char *remain = strtok(NULL, "");
+        token = strtok(NULL, "");
 
         // 숫자 이후 제목 파트가 " 로 시작한 경우를 처리합니다.
-        if (remain[0] == '\"')
+        if (token[0] == '\"')
         {
-            token = strtok(remain, "\"");
-            printf("token: %s\n", token);
+            token = strtok(token, "\"");
+            printf("remain: %s\n", token);
             strcpy(books[*cur_size].title, token);
-            remain = strtok(NULL, ",");
+            token = strtok(NULL, "\"");
         }
         else // ""로 제목이 구분되지 않은 경우
         {
-            // 제목 파트의 끝이 "가 아니라 , 일 것이므로 ,를 기준으로 나누어줍니다.
-            token = strtok(remain, ",");
+            // title 파트의 끝이 "가 아니라 , 일 것이므로 ,를 기준으로 나누어줍니다.
+            token = strtok(token, ",");
+            printf("token: %s\n", token);
             strcpy(books[*cur_size].title, token);
         }
 
-        remain = strtok(NULL, "\"");
-        printf("remain: %s\n", remain);
-        token = strtok(remain, "\"");
+        token = strtok(NULL, "\"");
+
         strcpy(books[*cur_size].author, token);
 
-        remain = strtok(NULL, "");
-        if (remain != NULL)
+        token = strtok(NULL, "");
+        if (token != NULL)
         {
-            strcpy(books[*cur_size].other, remain);
+            strcpy(books[*cur_size].other, token);
         }
 
         (*cur_size)++;
     }
-    free(books);
 }
 
 // 프로그램 메뉴 출력함수
@@ -225,6 +224,7 @@ int main()
             break;
         }
     }
+    free(books);
 
     fclose(fp);
 
