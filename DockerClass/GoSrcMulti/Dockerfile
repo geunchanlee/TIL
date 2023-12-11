@@ -7,3 +7,4 @@ FROM alpine:latest
 WORKDIR /root
 COPY --from=0 /root/mainAPP .
 CMD ["./mainAPP"]
+
