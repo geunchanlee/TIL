@@ -240,15 +240,22 @@ int eval(char *expr){
 
 int main()
 { 
-    char *str = (char *)malloc(sizeof(char) * 100);
+    char *expr = (char *)malloc(sizeof(char) * 100);
     printf("중위식을 입력하세요: ");
-    fgets(str, 100, stdin); // 사용자로부터 문자열을 입력받습니다
-    str[strlen(str) - 1] = '\0'; // fgets로 입력받은 문자열의 마지막에 개행문자가 들어가므로 개행문자를 '\0'로 바꿔줍니다
+    fgets(expr, 100, stdin); // 사용자로부터 문자열을 입력받습니다
+    expr[strlen(expr) - 1] = '\0'; // fgets로 입력받은 문자열의 마지막에 개행문자가 들어가므로 개행문자를 '\0'로 바꿔줍니다
 
-    char *postfix = infix_to_postfix(str); // 중위 표기법을 후위 표기식으로 변환하는 함수를 호출합니다
+    if (!check_match(expr) || !check_expr(expr)) // 수식이 올바른지 확인합니다
+    {
+        printf("수식이 올바르지 않습니다\n"); // 올바르지 않은 수식일 경우 오류 메세지를 출력합니다
+        free(expr); // 입력받은 문자열의 동적 할당을 해제합니다
+        return 0; //
+    }
+
+    char *postfix = infix_to_postfix(expr); // 중위 표기법을 후위 표기식으로 변환하는 함수를 호출합니다
     printf("후위식: %s\n", postfix); // 변환한 후위 표기법을 출력합니다
     printf("계산 결과: %d\n", eval(postfix)); // 후위 표기법으로 변환한 식을 계산하는 함수를 호출하고 결과를 출력합니다
     free(postfix); // 후위 표기식 문자열의 동적 메모리 할당을 해제합니다
-    free(str); // 입력받은 문자열의 동적 메모리 할당을 해제합니다
+    free(expr); // 입력받은 문자열의 동적 메모리 할당을 해제합니다
     return 0;
 } 
