@@ -36,19 +36,19 @@ int is_empty(HeapType* h) // 힙이 비어있는지 검사하는 함수입니다
     return h->heap_size == 0;
 }
 
-element* find_parent(HeapType* h, int size) // 부모 노드를 찾는 함수입니다.
-// size를 기준으로 부모 노드를 찾습니다.
-{
+element* find_parent(HeapType* h, int size) {
     element* parent = h->heap;
-    int i = size / 2; // 힙이 완전 이진트리이기 때문에 2로 나누어서 부모노드를 찾습니다.
-    while (i > 1) 
-    { 
-        if (i % 2 == 0) {
-            parent = parent->left;
-        } else {
+    // 루트 노드에서 시작합니다.
+    int path = size >> 1; // size를 오른쪽 시프트해서 부모 노드의 경로를 찾습니다.
+
+    // 루트에서 목표 노드의 부모까지 경로를 탐색합니다.
+    while (path > 1) {
+        if (path & 1) { // 1이면 오른쪽으로 이동합니다.
             parent = parent->right;
+        } else { // 0이면 왼쪽 자식으로 이동합니다.
+            parent = parent->left;
         }
-        i /= 2; // 순회하면서 방향에 맞춰 부모노드를 찾아갑니다.
+        path >>= 1; // 다음 비트를 검사합니다.
     }
     return parent;
 }
@@ -56,10 +56,10 @@ element* find_parent(HeapType* h, int size) // 부모 노드를 찾는 함수입
 void insert_min_heap(HeapType* h, int key)
 {
     element* e = new_element(key); // 새 노드 생성합니다.
-    if (is_empty(h))  // 빈 힙일땐 루트노드로 만듭니다.
-    { 
+    if (is_empty(h)) { // 빈 힙일땐 루트노드로 만듭니다.
+    
         h->heap = e;
-        int i = ++(h->heap_size);
+        h->heap_size++;
         printf("힙에 추가: %d\n", key);
         return;
     } 
@@ -76,16 +76,14 @@ void insert_min_heap(HeapType* h, int key)
 
     // 새로운 노드의 자리를 찾아 옮겨 최소 힙을 만듭니다.
     element* current = e;
-    while (parent != NULL && parent->key > current->key) // 부모노드의 값이 더 크면 교환합니다.
-    {
-        int temp = parent->key;
+    while (parent != NULL && parent->key > current->key) { // 부모노드의 값이 더 크면 교환합니다.
+        int temp = parent->key; // parent노드랑 current노드를 swap해줍니다
         parent->key = current->key;
         current->key = temp;
 
-        current = parent;
+        current = parent; // current를 부모노드로 바꿔주고 다시 반복합니다.
         parent = find_parent(h, (i /= 2));
     }
-
     printf("힙에 추가: %d\n", key);
 }
 
@@ -95,7 +93,7 @@ int delete_min_heap(HeapType* h) {
         return -1;
     }
 
-    element* parent, * left, * right, * last, * last_parent;
+    element* parent, * left, * right, * last;
     int min_key = h->heap->key;
 
     if (h->heap_size == 1) { // 힙의 크기가 1일땐 바로 루트노드를 반환합니다.
@@ -106,18 +104,7 @@ int delete_min_heap(HeapType* h) {
     }
 
     int i = h->heap_size;
-    last_parent = h->heap;
-    int path = i / 2;
-
-    // 마지막 노드의 부모를 찾습니다.
-    while (path > 1) {
-        if (path % 2 == 0) {
-            last_parent = last_parent->left;
-        } else {
-            last_parent = last_parent->right;
-        }
-        path /= 2;
-    }
+    element* last_parent = find_parent(h, i); // 끝 노드의 부모를 찾습니다.
 
     if (i % 2 == 0) {
         last = last_parent->left;
@@ -137,30 +124,20 @@ int delete_min_heap(HeapType* h) {
         right = parent->right;
         element* min = parent;
 
-        if (left != NULL && left->key < min->key) {
-            min = left;
-        }
-        if (right != NULL && right->key < min->key) {
-            min = right;
-        }
-
-        if (min == parent) {
-            break;
-        }
+        // 자식노드중 더 작은 값을 찾아서 min에 넣습니다.
+        if (left != NULL && left->key < min->key) min = left;
+        if (right != NULL && right->key < min->key) min = right;
+        if (min == parent) break;
 
         int temp = parent->key;
         parent->key = min->key;
         min->key = temp;
-
         parent = min;
     }
-
     return min_key;
 }
 
-
-int find(HeapType* h) // 현재 최소 힙의 루트노드를 반환합니다.
-{ 
+int find(HeapType* h) { // 현재 힙의 루트노드를 반환합니다.
     if (is_empty(h)) {
         printf("현재 힙이 비었습니다.\n");
         return -1;
@@ -178,6 +155,8 @@ int main()
     insert_min_heap(h, 10);
     insert_min_heap(h, 20);
     insert_min_heap(h, 5);
+
+    printf("-----------------\n");
 
     for (int i = 0; i < 5; i++) {
         int e = delete_min_heap(h);
