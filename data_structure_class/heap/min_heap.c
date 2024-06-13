@@ -11,18 +11,18 @@ typedef struct HeapType {
     int heap_size;
 } HeapType;
 
-HeapType* create_heap() 
+HeapType* create_heap()  // 힙을 생성하는 함수입니다.
 {
     return (HeapType*)malloc(sizeof(HeapType));
 }
 
-void init_heap(HeapType* h)
+void init_heap(HeapType* h) // 힙을 초기화하는 함수입니다.
 {
     h->heap = NULL;
     h->heap_size = 0;
 }
 
-element* new_element(int key)
+element* new_element(int key) // 새로운 노드를 생성하는 함수입니다.
 {
     element* e = (element*)malloc(sizeof(element));
     e->key = key;
@@ -31,7 +31,7 @@ element* new_element(int key)
     return e;
 }
 
-int is_empty(HeapType* h) // 힙이 비어있는지 검사하는 함수입니다.
+int is_empty(HeapType* h) // 힙이 비었는지 검사하는 함수입니다.
 {
     return h->heap_size == 0;
 }
@@ -57,12 +57,11 @@ void insert_min_heap(HeapType* h, int key)
 {
     element* e = new_element(key); // 새 노드 생성합니다.
     if (is_empty(h)) { // 빈 힙일땐 루트노드로 만듭니다.
-    
         h->heap = e;
         h->heap_size++;
         printf("힙에 추가: %d\n", key);
         return;
-    } 
+    }
 
     int i = ++(h->heap_size); //힙 사이즈 증가시키고 
     element* parent = find_parent(h, i); // 새로 들어갈 위치의 부모노드를 찾습니다.
@@ -106,6 +105,7 @@ int delete_min_heap(HeapType* h) {
     int i = h->heap_size;
     element* last_parent = find_parent(h, i); // 끝 노드의 부모를 찾습니다.
 
+    // 끝 노드의 부모노드 last_parent에서 왼쪽, 오른쪽인지 찾아서 last에 마지막 노드를 넣습니다.
     if (i % 2 == 0) {
         last = last_parent->left;
         last_parent->left = NULL;
@@ -114,12 +114,13 @@ int delete_min_heap(HeapType* h) {
         last_parent->right = NULL;
     }
 
+    // 마지막 노드를 루트노드로 이동시키고 힙 크기를 줄입니다.
     h->heap->key = last->key;
-    free(last);
     h->heap_size--;
+    free(last);
 
-    parent = h->heap;
-    while (1) {
+    parent = h->heap; // 루트노드부터 시작해서
+    while (1) { 
         left = parent->left;
         right = parent->right;
         element* min = parent;
@@ -129,10 +130,12 @@ int delete_min_heap(HeapType* h) {
         if (right != NULL && right->key < min->key) min = right;
         if (min == parent) break;
 
+        // 부모노드와 자식노드의 값을 바꿔줍니다.
         int temp = parent->key;
         parent->key = min->key;
         min->key = temp;
-        parent = min;
+
+        parent = min; // 부모노드를 min으로 바꿔주고 다시 반복합니다.
     }
     return min_key;
 }
