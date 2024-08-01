@@ -1,9 +1,10 @@
 ## Today I Learned
 
-- 그날그날 공부한 내용들
+- 그날그날 공부한 자료들
 
 - PS 기록들
 
-- 수업으로 배운 내용들 
+- 수업으로 배운 내용 정리 자료
 
-기록하기.
+https://geunchanlee.github.io
+
