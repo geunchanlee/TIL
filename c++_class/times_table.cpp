@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-// 9.5 c++ class <week1>
+// 9.5 c++ class <week1_2>
 
 int main() {
     for(int i=2; i<10; i++){
