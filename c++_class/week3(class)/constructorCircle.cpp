@@ -11,8 +11,8 @@ using namespace std;
 class Circle{ 
 public:
     int radius;
-    Circle();
-    Circle(int r);
+    Circle(); // 생성자
+    Circle(int r); // 생성자
     double getArea();
 };
 
