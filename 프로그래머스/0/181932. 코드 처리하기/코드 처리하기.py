@@ -4,16 +4,11 @@ def solution(code):
     for i in range(len(code)):
         if code[i] == '1':
             mode = not mode
-        else:
-            if mode == False:
-                if i % 2 == 0:
-                    ret += code[i]
-                else:
-                    pass
-            if mode == True:
-                if i % 2 == 1:
-                    ret += code[i]
-                else:
-                    pass
+            continue
+        if mode == False and not i % 2:
+            if i % 2 == 0:
+                ret += code[i]
+        elif mode == True and i % 2:
+            ret += code[i]
 
-    return "EMPTY" if ret == '' else ret
+    return ret if ret else "EMPTY"
