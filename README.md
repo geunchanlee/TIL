@@ -6,7 +6,5 @@
 
 - 수업으로 배운 내용 정리 자료
 
-- Devcourse 학습 내용.
-
-https://geunchanlee.github.io
+- Programmers DevCourse 학습내용
 
