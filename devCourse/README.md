@@ -13,3 +13,7 @@
 - `HTML`, `CSS`, `JavaScript`
 
 - `jQuery`
+
+- `Modern JavaScript`
+
+- `React`
