@@ -24,7 +24,7 @@
 
 - 팀을 이뤄 프론트엔드 프로젝트 수행
 
-- [여행 계획 추천 사이트 - Tripial](https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team8)
+- 여행 계획 추천 사이트 - [Tripial](https://github.com/prgrms-aibe-devcourse/AIBE5_Project1_Team8)
 
 **01. 30: 1차 역량 평가**
 
