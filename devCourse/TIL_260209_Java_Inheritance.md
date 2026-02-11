@@ -1,4 +1,4 @@
-# TIL_26/02/08 - Java Inheritance
+# TIL_26/02/09 - Java Inheritance
 
 자바 클래스에 이어 상속 학습
 
