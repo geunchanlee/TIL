@@ -5,7 +5,7 @@
 - 프로그램 동작 중 잘못된 값이 입력되거나, 파일이 존재하지 않는 경우 발생
 - 에러 발생시 JVM이 프로그램을 강제 종료시킨다.
 
-### 예외처리
+### 예외 처리
 
 예외가 발생하더라도 프로그램이 강제 종료되지 않도록 하는 방법
 
@@ -15,7 +15,7 @@
 
 Error 클래스, `Exception` 클래스
 
-Exception 클래스 하위에 입출력 예외처리(IOException), 런타임 예외처리(RuntimeException) 존재.
+Exception 클래스 하위에 입출력 예외 처리(IOException), 런타임 예외 처리(RuntimeException) 존재.
 
 ---
 
@@ -59,7 +59,7 @@ java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5
 예외 처리로 종료 없이 마지막까지 실행됨
 ```
 
-`try-catch`문이 없다면 마지막 출력이 실행되지 않고 프로그램이 종료되지만 try-catch로 예외처리하면 마지막까지 실행된다.
+`try-catch`문이 없다면 마지막 출력이 실행되지 않고 프로그램이 종료되지만 try-catch로 예외 처리하면 마지막까지 실행된다.
 
 for문의 `i <= 5` 부분 때문에 오류가 발생한다. 이 부분에서 발생한 오류가 `catch`에 의해 처리되고 프로그램 강제 종료 없이 마지막까지 실행된다.
 
@@ -102,13 +102,13 @@ Error Confirmed
 
 ### throws
 
-예외를 발생한 해당 메서드에서 처리하지 않고 미룬 후에 메서드를 호출하여 사용하는 부분에서 예외처리 하는 방법이다.
+예외를 발생한 해당 메서드에서 처리하지 않고 미룬 후에 메서드를 호출하여 사용하는 부분에서 예외 처리 하는 방법이다.
 
 위의 _thorw_ 랑 _s_ 한 글자 차이지만  다른 기능이니까 헷갈리지 말자.
 
 `throws`는 **메서드 선언부**에 작성한다. 이 메서드를 실행 중 예외가 발생할 수 있으니 이를 호출하는 쪽에서 대비하라고 알리는 역할이다. 여러 예외를 동시에 던질 수도 있다.
 
-> [!NOTE] throws 사용법
+> **throws 사용법**
 > ```java
 > public void throwsErr() throws IOException, SQLException { 
 > 	... 
@@ -156,8 +156,7 @@ public class Throws {
 }
 ```
 
-> [!tldr] 실행 결과
-
+> **실행 결과**
 ```text
 throwError 실행
 java.lang.ArithmeticException
@@ -171,10 +170,10 @@ java.lang.NullPointerException: Error!
 
 이 메서드들을 호출하는 `main` 메서드에서 이 예외들에 대한 처리를 `try - catch`로 해 주었다.
 
-실행 결과를 살펴보면 메서드에서 예외처리해준 `throw()`가 자체적으로 예외처리해 실행된 뒤에 `throwsError1`이 실행되면서 main에서 설정한 예외처리가 작동한다. main의 `try-catch`문이 여기서 catch로 점프하면서 `throwsError2()`는 실행되지 않고 종료된 것을 알 수 있다.
+실행 결과를 살펴보면 메서드에서 예외 처리해 준 `throw()`가 자체적으로 예외 처리해 실행된 뒤에 `throwsError1`이 실행되면서 main에서 설정한 예외 처리가 작동한다. main의 `try-catch`문이 여기서 catch로 점프하면서 `throwsError2()`는 실행되지 않고 종료된 것을 알 수 있다.
 
 
-> [!NOTE] throws 정리
+> **throws 정리**
 > - `throws`를 사용해서 예외를 메서드 호출부에서 처리할 수 있다.
 > - 각 메서드에 try-catch로 작성하는것과 다르게 메서드를 모두 실행하지 않고 try-catch문이 작동할 때 종료되는 것도 알고 있자.
 > - `throw`, `throws` 착각하지 말기!
