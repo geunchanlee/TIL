@@ -14,39 +14,29 @@ class Solution {
             }
 
             for (int d = 0; d < dump; d++) {
-                int max_v = boxes[0];
-                int min_v = boxes[0];
-                for (int i : boxes) {
-                    if (i > max_v) max_v = i;
-                    if (i < min_v) min_v = i;
+                int max_idx = 0;
+                int min_idx = 0;
+                for (int i = 1; i < 100; i++) {
+                    if(boxes[i] > boxes[max_idx]) max_idx = i;
+                    if(boxes[i] < boxes[min_idx]) min_idx = i;
                 }
-
-                int gap = max_v - min_v;
-                if (gap <= 1) {
+                if (boxes[max_idx] - boxes[min_idx] <= 1) {
                     break;
-                } else {
-                    int max_idx = 0;
-                    int min_idx = 0;
-                    for (int i = 0; i < boxes.length; i++) {
-                        if (boxes[i] == max_v) {
-                            max_idx = i;
-                        } else if (boxes[i] == min_v) {
-                            min_idx = i;
-                        }
-                    }
-                    boxes[max_idx] -= 1;
-                    boxes[min_idx] += 1;
                 }
-            }
-            int max_v = boxes[0];
-            int min_v = boxes[0];
-            for (int i : boxes) {
-                if (i > max_v) max_v = i;
-                if (i < min_v) min_v = i;
+
+                boxes[max_idx]--;
+                boxes[min_idx]++;
             }
 
-            int gap = max_v - min_v;
-            System.out.println("#" + test_case + " " + gap);
+            int max_idx = 0;
+            int min_idx = 0;
+            for (int i = 1; i < 100; i++) {
+                if(boxes[i] > boxes[max_idx]) max_idx = i;
+                if(boxes[i] < boxes[min_idx]) min_idx = i;
+            }
+
+            System.out.println("#" + test_case + " " + (boxes[max_idx] - boxes[min_idx]));
+            
         }
     }
 }
