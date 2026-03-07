@@ -38,8 +38,10 @@
 
 - 알고리즘 학습
 
+- 2차 팀 활동 - [Java CLI Board](https://github.com/0cha-0cha/java-cli-board-team12)
 
-** 02. 25 ~ : DataBase Study**
 
-- 데이터베이스
+** 02. 25 ~ 03.05: DataBase Study**
+
+- 데이터베이스 학습
 
